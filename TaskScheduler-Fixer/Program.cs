@@ -67,9 +67,9 @@ namespace TaskScheduler_HealthCheck
             }
             else
             {
-                string[] آرایه = reg.GetSubKeyNames();
-                foreach (var آ in آرایه)
-                    using (var r = Registry.LocalMachine.OpenSubKey(reg.Name.Substring(19) + @"\" + آ))
+                string[] subKeyNames = reg.GetSubKeyNames();
+                foreach (var subKeyName in subKeyNames)
+                    using (var r = Registry.LocalMachine.OpenSubKey(reg.Name.Substring(19) + @"\" + subKeyName))
                         LoadFromRegistryForTree(r); // recursive
             }
         }
@@ -81,10 +81,10 @@ namespace TaskScheduler_HealthCheck
             _orphandEntries = new List<string>();
             using (RegistryKey r = Registry.LocalMachine.OpenSubKey(REGISTRYPATH + @"\Tasks"))
             {
-                string[] آرایه = r.GetSubKeyNames();
-                foreach (var آ in آرایه)
+                string[] subKeyNames = r.GetSubKeyNames();
+                foreach (var subKeyName in subKeyNames)
                 {
-                    string keyName = r.Name + @"\" + آ;
+                    string keyName = r.Name + @"\" + subKeyName;
                     var v = Registry.GetValue(keyName, "Path", null);
                     if (v == null)
                         _orphandEntries.Add(keyName);
